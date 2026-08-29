@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioAge Pro | Longevity Metrics Lab</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --card-dark: #1e293b;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--card-dark);
+            border-bottom: 1px solid var(--border);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent-blue);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .card {
+            background-color: var(--card-dark);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 650px;
+            padding: 35px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
+        }
+
+        h2, h3 { margin-top: 0; }
+        p.subtitle { color: var(--text-muted); margin-bottom: 30px; font-size: 14px; }
+        .step { display: none; }
+        .step.active { display: block; }
+        .form-group { margin-bottom: 25px; }
+        
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-main);
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .slider-container { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        input[type="range"] { flex: 1; accent-color: var(--accent-blue); }
+        .slider-val { font-weight: 700; min-width: 50px; text-align: right; color: var(--accent-blue); }
+        .btn-container { display: flex; justify-content: space-between; margin-top: 30px; gap: 15px; }
+        
+        button {
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            flex: 1;
+        }
+
+        .btn-primary { background-color: var(--accent-blue); color: white; }
+        .btn-secondary { background-color: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+
+        .circle-dashboard {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 4px solid var(--accent-green);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 25px auto;
+            background-color: rgba(16, 185, 129, 0.05);
+        }
+
+        .circle-dashboard .age-num { font-size: 42px; font-weight: 800; color: var(--accent-green); }
+        .circle-dashboard .age-lbl { font-size: 11px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; }
+        
+        .section-block {
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .section-block h3 {
+            font-size: 16px;
+            color: var(--accent-blue);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .metric-item {
+            background: var(--bg-dark);
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid var(--border);
+        }
+
+        .metric-item span { display: block; color: var(--text-muted); margin-bottom: 4px; }
+        .metric-item strong { font-size: 14px; }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #000;
+            margin-top: 12px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .pill-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .pill { background-color: var(--border); padding: 4px 10px; border-radius: 6px; font-size: 13px; }
+
+        .premium-upsell {
+            border: 2px dashed var(--accent-orange);
+            background-color: rgba(245, 158, 11, 0.04);
+            border-radius: 14px;
+            padding: 22px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .premium-title {
+            color: var(--accent-orange);
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .premium-price {
+            font-size: 32px;
+            font-weight: 800;
+            margin: 10px 0;
+            color: #fff;
+        }
+
+        .btn-premium {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .progress-bar { height: 4px; background-color: var(--border); width: 100%; margin-bottom: 30px; border-radius: 2px; overflow: hidden; }
+        .progress-fill { height: 100%; background-color: var(--accent-blue); width: 33%; transition: width 0.3s; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">BioAge.io Pro</div>
+</header>
+
+<main>
+    <div class="card">
+        <div id="progressBar" class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+
+        <!-- STEP 1: Baselines -->
+        <div id="step1" class="step active">
+            <h2>Vital Baselines</h2>
+            <p class="subtitle">Step 1 of 3: Enter your native structural metrics.</p>
+            <div class="form-group">
+                <label for="chronAge">Actual Calendar Age</label>
+                <input type="number" id="chronAge" placeholder="e.g. 40" min="1" max="120">
+            </div>
+            <div class="form-group">
+                <label for="restingHR">Resting Heart Rate (BPM)</label>
+                <input type="number" id="restingHR" placeholder="e.g. 68" min="30" max="150">
+            </div>
+            <div class="btn-container">
+                <div></div>
+                <button class="btn-primary" onclick="navigate(2)">Next Details →</button>
+            </div>
+        </div>
+
+        <!-- STEP 2: Lifestyle -->
+        <div id="step2" class="step">
+            <h2>Lifestyle Factors</h2>
+            <p class="subtitle">Step 2 of 3: Metabolic and lifestyle variables.</p>
+            <div class="form-group">
+                <label for="diet">Nutritional Quality</label>
+                <select id="diet">
+                    <option value="-1.5">Optimized (Whole foods, clean fuel)</option>
+                    <option value="0" selected>Moderate (Standard balanced profile)</option>
+                    <option value="2.5">High Stress (Processed carbs/sugar)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="sleep">Sleep Window Profile</label>
+                <select id="sleep">
+                    <option value="-1.0">Optimal (7.5 - 9 Hours Rested)</option>
+                    <option value="0.5">Suboptimal (6 - 7 Hours)</option>
+                    <option value="2.5">Deprived (Under 6 Hours nightly)</option>
+                </select>
+            </div>
+            <div class="btn-container">
+                <button class="btn-secondary" onclick="navigate(1)">← Back</button>
+                <button class="btn-primary" onclick="navigate(3)">Next Details →</button>
+            </div>
+        </div>
+
+        <!-- STEP 3: Strength & Stamina -->
+        <div id="step3" class="step">
+            <h2>Physical Assessments</h2>
+            <p class="subtitle">Step 3 of 3: Functional structural strength benchmarks.</p>
+            
+            <div class="form-group">
+                <label for="pushups">Maximum Continuous Push-ups</label>
+                <div class="slider-container">
+                    <input type="range" id="pushups" min="0" max="60" value="15" oninput="updateSlider('pushups')">
+                    <span id="pushupsVal" class="slider-val">15</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="plank">Maximum Plank Hold (Seconds)</label>
+                <div class="slider-container">
+                    <input type="range" id="plank" min="0" max="180" step="5" value="45" oninput="updateSlider('plank')">
+                    <span id="plankVal" class="slider-val">45s</span>
+                </div>
+            </div>
